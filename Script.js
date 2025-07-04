@@ -1,11 +1,13 @@
-let money = localStorage.getItem("money") ? parseInt(localStorage.getItem("money")) : 0;
-let unlockedBuses = JSON.parse(localStorage.getItem("unlockedBuses") || "[]");
+// Initialisation de l'argent et des bus débloqués
+let money = parseInt(localStorage.getItem("money")) || 0;
+let unlockedBuses = JSON.parse(localStorage.getItem("unlockedBuses")) || [];
 
+// Sélection des éléments HTML
 const moneyDisplay = document.getElementById("money");
 const unlockedList = document.getElementById("unlocked-buses");
 const storeDiv = document.getElementById("bus-store");
 
-// Liste des bus à débloquer
+// Liste des bus disponibles à l'achat
 const buses = [
   { name: "Mini Bus", cost: 300 },
   { name: "Bus Standard", cost: 600 },
@@ -13,11 +15,13 @@ const buses = [
   { name: "Bus Électrique", cost: 2000 }
 ];
 
+// Met à jour l'affichage du solde
 function updateMoneyDisplay() {
-  moneyDisplay.textContent = money + " €";
+  moneyDisplay.textContent = money.toLocaleString() + " €";
   localStorage.setItem("money", money);
 }
 
+// Met à jour la liste des bus débloqués
 function updateUnlockedBuses() {
   unlockedList.innerHTML = "";
   unlockedBuses.forEach(bus => {
@@ -28,6 +32,7 @@ function updateUnlockedBuses() {
   localStorage.setItem("unlockedBuses", JSON.stringify(unlockedBuses));
 }
 
+// Crée les boutons d'achat pour les bus
 function createBusStore() {
   storeDiv.innerHTML = "";
   buses.forEach(bus => {
@@ -47,13 +52,14 @@ function createBusStore() {
   });
 }
 
-// 👉 Chaque clic rapporte 10 000 €
+// Clique sur le bouton pour faire une ligne de bus
 document.getElementById("run-line").addEventListener("click", () => {
   money += 10000;
   updateMoneyDisplay();
   createBusStore();
 });
 
+// Démarrage
 updateMoneyDisplay();
 updateUnlockedBuses();
 createBusStore();
