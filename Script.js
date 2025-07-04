@@ -35,7 +35,7 @@ function createBusStore() {
     btn.textContent = `Débloquer ${bus.name} - ${bus.cost} €`;
     btn.disabled = money < bus.cost || unlockedBuses.includes(bus.name);
     btn.onclick = () => {
-      if (money >= bus.cost) {
+      if (money >= bus.cost && !unlockedBuses.includes(bus.name)) {
         money -= bus.cost;
         unlockedBuses.push(bus.name);
         updateMoneyDisplay();
@@ -47,8 +47,9 @@ function createBusStore() {
   });
 }
 
+// 👉 Chaque clic rapporte 10 000 €
 document.getElementById("run-line").addEventListener("click", () => {
-  money += 100;
+  money += 10000;
   updateMoneyDisplay();
   createBusStore();
 });
